@@ -18,6 +18,7 @@ $sql = "DROP TABLE IF EXISTS artikel;
 $sql .= "INSERT INTO artikel (varunamn, farg, pris) VALUES
 ('Jacka', 'Grön', 500),
 ('Byxor', 'Blå', 300),
+('Tröja', 'Gul', 400),
 ('Skor', 'Svart', 250);";
 
 echo "<pre>$sql</pre>"; // Skriv ut SQL-frågan till skärm
