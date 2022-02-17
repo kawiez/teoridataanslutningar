@@ -37,6 +37,7 @@
 </head>
 <body>
     <h1>Webbutik</h1>
+    <a href="admin.php">Admin</a>
 
     <h2>Mina varor</h2>
 
@@ -75,33 +76,11 @@
         }
 
 
+        mysqli_close($db);
+
     ?>
     </div>
 
-
-    <div class="formdb">
-    <h3>Lägg till vara</h3>
-        <form action="index.php" method="post">
-            <label for="varunamn">Varunamn: </label>
-            <br>
-            <input type="text" name="varunamn" />
-            <br>
-            <label for="pris">Pris: </label>
-            <br>
-            <input type="text" name="pris" />
-            <br>
-            <label for="farg">Färg: </label>
-            <br>
-            
-            <select name="farg" id="farg">
-                <option value="lila">Lila</option>
-                <option value="gul">Gul</option>
-            </select>
-            <br>
-            <input type="submit" value="Lägg till">
-
-        </form>
-    </div>
 
 </body>
 </html>
