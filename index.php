@@ -29,45 +29,39 @@
     .mysqliobjekt{
         background-color: lightblue;
     }
+
+    .formdb {
+        background-color: orange;
+    }
     </style>
 </head>
 <body>
     <h1>Webbutik</h1>
 
     <h2>Mina varor</h2>
-    <div class="PDO">
-        <h3>Anslutning med PDO</h3>
-        <?php
-        
-        
-        /* Anslut till databasen */
-        $db = new PDO("mysql:dbname=varor;host=localhost;port=3306", 'varor', 'password') or die("Fel vid anslutning"); //pdo(typ av db)
 
-        /* SQL-fråga  för att läsa ut allt (*) från tabellen artikel */
-        $sql = "SELECT * FROM artikel";
-        $result = $db->query($sql) or die("Fel vid SQL-fråga");
-
-        /* Loopa genom resultatet (alla rader som returneras av SQL-frågan) */
-        foreach($result->FetchAll() as $row) {
-            echo "<article><h3>" . $row['varunamn'] . "</h3>";
-            echo "<p>Pris: " . $row['pris'] . " kronor.</p>";
-            echo "<p>Färg: " . $row['farg'] . "</p>";
-        }
-        ?>
-    </div>
 
     <div class="mysqli">
         <h3>Anslutning med mysqli</h3>
 
         <?php
 
-        /* LÄGGA TILL I BÖRJAN
+        /* LÄGGA IN DATA
         $sql = "INSERT INTO artikel(varunamn, farg, pris) VALUES ('Skjorta', 'Vit', 325);";
         $result = mysqli_query($db, $sql);
         */
 
         /* Anslut till databasen */
         $db = mysqli_connect('localhost', 'varor', 'password', 'varor') or die('Fel vid anslutning');
+
+        if(isset($_POST['varunamn'])){
+            $varunamn = $_POST['varunamn'];
+            $pris = $_POST['pris'];
+            $farg = $_POST['farg'];
+
+            $sql = "INSERT INTO artikel(varunamn, farg, pris) VALUES ('" . $varunamn . "', '" . $farg . "', $pris);";
+            $result = mysqli_query($db, $sql) or die("Fel vid tillägning");
+        }
 
         /* SQL-fråga  för att läsa ut allt (*) från tabellen artikel */
         $sql = "SELECT * FROM artikel";
@@ -77,35 +71,36 @@
         while ($row = mysqli_fetch_array($result)) {
             echo "<article><h3>" . $row['varunamn'] . "</h3>";
             echo "<p>Pris: " . $row['pris'] . " kronor.</p>";
-            echo "<p>Färg: " . $row['farg'] . "</p>";
+            echo "<p>Färg: " . $row['farg'] . "</p></article>";
         }
 
 
     ?>
     </div>
 
-    <div class="mysqliobjekt">
-    <h3>Anslutning med objektorienterad mysqli</h3>
 
-    <?php
-    /* Anslut till databasen */
-    $db = new mysqli('localhost', 'varor', 'password', 'varor');
-    if($db->connect_errno > 0){
-        die('Fel vid anslutning [' . $db->connect_error . ']');
-    }
+    <div class="formdb">
+    <h3>Lägg till vara</h3>
+        <form action="index.php" method="post">
+            <label for="varunamn">Varunamn: </label>
+            <br>
+            <input type="text" name="varunamn" />
+            <br>
+            <label for="pris">Pris: </label>
+            <br>
+            <input type="text" name="pris" />
+            <br>
+            <label for="farg">Färg: </label>
+            <br>
+            
+            <select name="farg" id="farg">
+                <option value="lila">Lila</option>
+                <option value="gul">Gul</option>
+            </select>
+            <br>
+            <input type="submit" value="Lägg till">
 
-    /* SQL-fråga  för att läsa ut allt (*) från tabellen artikel */
-    $sql = "SELECT * FROM artikel";
-    if(!$result = $db->query($sql)){
-        die('Fel vid SQL-fråga [' . $db->error . ']');
-    }
-
-    /* Loopa genom resultatet (alla rader som returneras av SQL-frågan) */
-    while($row = $result->fetch_assoc()){
-        echo "<article><h3>" . $row['varunamn'] . "</h3>";
-        echo "<p>Pris: " . $row['pris'] . " kronor.</p>";
-    }
-?>
+        </form>
     </div>
 
 </body>
